@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ltabdulrhman23-oss.github.io/Tawly-alaesawe/sitemap.xml
+
