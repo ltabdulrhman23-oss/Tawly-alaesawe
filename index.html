@@ -93,7 +93,12 @@
         .stat-row { display: flex; justify-content: space-between; padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; }
         .luck-meter-container { background: #171f33; height: 10px; border-radius: 5px; margin-top: 15px; overflow: hidden; position: relative; }
         .luck-bar { height: 100%; background: linear-gradient(90deg, var(--iraqi-kahraman), var(--soft-green)); width: 50%; transition: width 0.5s ease; }
-        .close-stats-btn { background: #1c253d; border: none; color: #fff; padding: 8px 24px; border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; font-family: 'Tajawal', sans-serif; }
+        
+        .modal-actions { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        .close-stats-btn { background: #1c253d; border: none; color: #fff; padding: 10px 20px; border-radius: 12px; font-weight: bold; cursor: pointer; font-family: 'Tajawal', sans-serif; font-size: 13px; transition: background 0.2s; }
+        .close-stats-btn:active { transform: scale(0.95); }
+        .reset-stats-btn { background: #5c1d1d; color: #fca5a5; border: 1px solid #991b1b; }
+        .reset-stats-btn:hover { background: #7f1d1d; }
 
         /* --- شريط المؤقت التنافسي البصري --- */
         .timer-track { width: 100%; height: 3px; background: rgba(255,255,255,0.02); position: relative; z-index: 5; }
@@ -139,7 +144,6 @@
             50% { opacity: 1; transform: scale(1.1); }
         }
 
-        /* تطبيق الحركات والتلوان النيوني على الأيقونات حصراً */
         .ani-dice { animation: spinDice 2.5s infinite ease-in-out; color: var(--iraqi-shadhar); filter: drop-shadow(0 0 3px rgba(0, 210, 255, 0.4)); }
         .ani-radio { animation: pulseRadio 1.8s infinite ease-in-out; color: var(--soundcloud-orange); }
         .ani-theme { animation: spinSun 8s infinite linear; color: var(--iraqi-kahraman); filter: drop-shadow(0 0 3px rgba(255, 179, 0, 0.4)); }
@@ -152,7 +156,6 @@
         .top-player.active-turn { border-color: rgba(255, 179, 0, 0.25); box-shadow: inset 0 0 20px rgba(255, 179, 0, 0.05); }
         .bottom-player.active-turn { border-color: rgba(0, 210, 255, 0.25); box-shadow: inset 0 0 20px rgba(0, 210, 255, 0.05); }
         
-        /* كلاسات وميض النيون للمثاني والرميات الكبيرة */
         .flash-shadhar-active { animation: flashShadhar 0.5s ease-in-out alternate 3; }
         .flash-kahraman-active { animation: flashKahraman 0.5s ease-in-out alternate 3; }
         @keyframes flashShadhar { 
@@ -165,12 +168,13 @@
         }
 
         .player-header { display: flex; justify-content: space-between; align-items: center; width: 90%; max-width: 320px; margin-bottom: 5px; }
-        .name-input { background: transparent; border: none; border-bottom: 1px dashed rgba(255,255,255,0.08); color: #cbd5e1; font-size: 14px; font-weight: 700; width: 110px; padding: 2px; font-family: 'Tajawal', sans-serif; cursor: pointer; }
+        .name-input { background: transparent; border: none; border-bottom: 1px dashed rgba(255,255,255,0.08); color: #cbd5e1; font-size: 14px; font-weight: 700; width: 100px; padding: 2px; font-family: 'Tajawal', sans-serif; cursor: pointer; }
         .top-player .name-input { text-align: right; }
 
-        .score-box { display: flex; align-items: center; gap: 6px; background: #121622; padding: 2px 8px; border-radius: 20px; }
-        .score-val { color: var(--soft-green); font-weight: 700; font-size: 13px; }
-        .score-btn { background: none; border: none; color: #5c6b84; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .score-box { display: flex; align-items: center; background: #121622; padding: 4px 10px; border-radius: 20px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
+        .score-val { color: var(--soft-green); font-weight: 700; font-size: 12px; white-space: nowrap; }
+        .score-btn { background: none; border: none; color: #5c6b84; cursor: pointer; font-size: 15px; font-weight: bold; padding: 0 4px; }
+        .score-btn:active { transform: scale(1.2); }
 
         .dice-row { display: flex; justify-content: center; gap: 25px; margin-bottom: 8px; }
         .cyber-cube { font-size: 46px; font-weight: 900; width: 78px; height: 78px; line-height: 78px; border-radius: 22px; background: #121622; text-align: center; border: 1px solid rgba(255, 255, 255, 0.02); transition: all 0.2s; }
@@ -218,7 +222,6 @@
         @keyframes bounceVisualizer { 0% { height: 2px; } 100% { height: 9px; } }
 
         .history-container { width: 88%; max-width: 320px; margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
-        .history-label { font-size: 10px; color: #49566e; text-align: right; }
         .history-scroll { display: flex; gap: 6px; overflow-x: auto; padding: 2px; scrollbar-width: none; }
         .history-scroll::-webkit-scrollbar { display: none; }
 
@@ -233,7 +236,7 @@
 </head>
 <body>
 
-    <!-- الدخولية الملكية الفلوجية المحدثة والمحسنة بالكامل -->
+    <!-- الدخولية الملكية الفلوجية -->
     <div class="splash-overlay" id="splashScreen">
         <div class="splash-container">
             <div class="splash-badge">PREMIUM DIWAN</div>
@@ -257,17 +260,23 @@
             <div class="stat-row"><span>عدد الهب يك (1:1):</span><span id="statHabYek">0</span></div>
             <div style="margin-top:15px; text-align:right; font-size:12px; color:#8fa0c2;">مقياس الحظ الفلوجي: <span id="luckVal" style="color:var(--iraqi-kahraman); font-weight:bold;">50%</span></div>
             <div class="luck-meter-container"><div class="luck-bar" id="luckBar"></div></div>
-            <button class="close-stats-btn" onclick="closeStats()">اغلاق</button>
+            
+            <div class="modal-actions">
+                <button class="close-stats-btn" onclick="closeStats()">إغلاق</button>
+                <button class="close-stats-btn reset-stats-btn" onclick="resetStats()">تصفير الإحصائيات</button>
+            </div>
         </div>
     </div>
 
-    <!-- اللاعب 2 -->
+    <!-- اللاعب 2 (العلوي المقلوب) -->
     <div class="player-zone top-player" id="zone-2">
         <div class="player-header">
             <input type="text" class="name-input" value="اللاعب 2" id="name-p2" onchange="saveAndSync()" onclick="openStats(2)">
             <div class="score-box">
-                <button class="score-btn" onclick="addScore(2)">+</button>
-                <span class="score-val" id="score-2">الفوز: 0</span>
+                <span class="score-val" id="score-2-v2">أنا: 0</span>
+                <span style="color: rgba(255,255,255,0.1); margin: 0 3px;">|</span>
+                <span class="score-val" id="score-2-v1" style="color: var(--iraqi-shadhar);">الخصم: 0</span>
+                <button class="score-btn" onclick="addScore(2)" style="margin-right: 5px;">+</button>
             </div>
         </div>
         <div class="combo-name" id="combo-2">- جاهز عيني -</div>
@@ -280,12 +289,11 @@
         <div class="shake-hint" id="shake-p2">أو هز التلفون حتى ترمي</div>
     </div>
 
-    <!-- شريط المؤقت البصري التنافسي -->
+    <!-- شريط المؤقت البصري -->
     <div class="timer-track"><div class="timer-bar" id="activeTimerBar"></div></div>
 
-    <!-- الحزام المركزي المعدل بأيقونات ملونة ومتحركة بالكامل -->
+    <!-- الحزام المركزي -->
     <div class="center-bar">
-        <!-- زر القرعة - شذري متحرك دوراني -->
         <button class="center-btn" onclick="determineStarter();" title="منو يبدي؟">
             <svg class="svg-icon ani-dice" viewBox="0 0 24 24">
                 <rect x="3" y="3" width="18" height="18" rx="4" />
@@ -293,7 +301,6 @@
             </svg>
         </button>
         
-        <!-- زر تشغيل النغم - برتقالي متوهج نابض -->
         <button class="tarab-btn" id="tarabRadioBtn" onclick="toggleLocalTarab();" title="شغل النغم">
             <div class="audio-visualizer" id="audioVis"><span></span><span></span><span></span></div>
             <svg class="svg-icon ani-radio" viewBox="0 0 24 24" style="margin-bottom: 4px;">
@@ -302,12 +309,10 @@
         </button>
 
         <div style="display: flex; gap: 6px; align-items: center;">
-            <!-- زر الأجواء والثيم - كهرماني ذهبي يدور بنعومة -->
             <button class="center-btn" onclick="toggleTheme()" title="تغيير الأجواء">
                 <svg class="svg-icon ani-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42m12.72-12.72l1.42-1.42"/></svg>
             </button>
 
-            <!-- زر ملء الشاشة - فضي كريستالي متمدد تفاعلي -->
             <button class="center-btn" onclick="toggleFullscreen()" title="ملء الشاشة">
                 <svg class="svg-icon ani-screen" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
             </button>
@@ -318,13 +323,15 @@
         </div>
     </div>
 
-    <!-- اللاعب 1 -->
+    <!-- اللاعب 1 (العلوي المعتدل) -->
     <div class="player-zone bottom-player active-turn" id="zone-1">
         <div class="player-header">
             <input type="text" class="name-input" value="اللاعب 1" id="name-p1" onchange="saveAndSync()" onclick="openStats(1)">
             <div class="score-box">
-                <button class="score-btn" onclick="addScore(1)">+</button>
-                <span class="score-val" id="score-1">الفوز: 0</span>
+                <span class="score-val" id="score-1-v1">أنا: 0</span>
+                <span style="color: rgba(255,255,255,0.1); margin: 0 3px;">|</span>
+                <span class="score-val" id="score-1-v2" style="color: var(--iraqi-kahraman);">الخصم: 0</span>
+                <button class="score-btn" onclick="addScore(1)" style="margin-left: 5px;">+</button>
             </div>
         </div>
         <div class="combo-name" id="combo-1">- صار دورك عيني -</div>
@@ -344,6 +351,7 @@
         let motionPermissionGranted = false;
         let turnTimer = null;
         let timeLeft = 150; 
+        let activeModalPlayer = null; 
 
         let playerStats = {
             1: { total: 0, dosh: 0, sheesh: 0, habYek: 0, luckArr: [] },
@@ -383,6 +391,7 @@
         }
 
         function openStats(pNum) {
+            activeModalPlayer = pNum; 
             const stats = playerStats[pNum];
             const name = document.getElementById(`name-p${pNum}`).value;
             document.getElementById('modalPlayerName').innerText = `إحصائيات ديوان ${name}`;
@@ -405,6 +414,20 @@
 
         function closeStats() { document.getElementById('statsModal').classList.remove('open'); }
 
+        function resetStats() {
+            if (!activeModalPlayer) return;
+            const name = document.getElementById(`name-p${activeModalPlayer}`).value;
+            
+            if (confirm(`عيني يا ${name}، متأكد تريد تصفر الإحصائيات وسجل الفوز مالتك بالكامل؟`)) {
+                playerStats[activeModalPlayer] = { total: 0, dosh: 0, sheesh: 0, habYek: 0, luckArr: [] };
+                winScores[activeModalPlayer] = 0;
+                document.getElementById(`history-${activeModalPlayer}`).innerHTML = ''; 
+                
+                saveAndSync();
+                closeStats();
+            }
+        }
+
         function toggleTheme() {
             document.body.classList.toggle('theme-wood');
             localStorage.setItem('tawla_theme', document.body.classList.contains('theme-wood') ? 'wood' : 'cyber');
@@ -425,7 +448,12 @@
                 document.getElementById('audioVis').classList.add('playing'); document.getElementById('tarabRadioBtn').classList.add('playing');
             });
             currentAudio.addEventListener('ended', function() { toggleLocalTarab(); });
-            currentAudio.play().catch(e => {});
+            
+            currentAudio.play().catch(e => {
+                alert("عيني، ملفات الأنغام (1.mp3، 2.mp3، 3.mp3) مو بمجلد اللعبة حالياً. ارفعها حتى يشتغل الراديو عندك!");
+                document.getElementById('audioVis').classList.remove('playing');
+                document.getElementById('tarabRadioBtn').classList.remove('playing');
+            });
         }
 
         async function requestSensorPermission() {
@@ -438,8 +466,8 @@
         document.addEventListener("DOMContentLoaded", () => {
             if(localStorage.getItem("p1_name")) document.getElementById("name-p1").value = localStorage.getItem("p1_name");
             if(localStorage.getItem("p2_name")) document.getElementById("name-p2").value = localStorage.getItem("p2_name");
-            if(localStorage.getItem("p1_score")) { winScores[1] = parseInt(localStorage.getItem("p1_score")); document.getElementById("score-1").innerText = `الفوز: ${winScores[1]}`; }
-            if(localStorage.getItem("p2_score")) { winScores[2] = parseInt(localStorage.getItem("p2_score")); document.getElementById("score-2").innerText = `الفوز: ${winScores[2]}`; }
+            if(localStorage.getItem("p1_score")) winScores[1] = parseInt(localStorage.getItem("p1_score"));
+            if(localStorage.getItem("p2_score")) winScores[2] = parseInt(localStorage.getItem("p2_score"));
             if(localStorage.getItem("tawla_theme") === 'wood') document.body.classList.add('theme-wood');
             if(localStorage.getItem("tawla_stats")) playerStats = JSON.parse(localStorage.getItem("tawla_stats"));
             saveAndSync();
@@ -453,26 +481,49 @@
             localStorage.setItem("tawla_stats", JSON.stringify(playerStats));
             
             const p1 = document.getElementById('name-p1').value; const p2 = document.getElementById('name-p2').value;
+            
+            // مزامنة الأرقام واللوحات للطرفين فوراً
+            document.getElementById("score-1-v1").innerText = `أنا: ${winScores[1]}`;
+            document.getElementById("score-1-v2").innerText = `${p2}: ${winScores[2]}`;
+            
+            document.getElementById("score-2-v2").innerText = `أنا: ${winScores[2]}`;
+            document.getElementById("score-2-v1").innerText = `${p1}: ${winScores[1]}`;
+
             document.getElementById('combo-1').innerText = activePlayer === 1 ? `- دورك عيني يا ${p1} -` : `انتظر ${p2}`;
             document.getElementById('combo-2').innerText = activePlayer === 2 ? `- دورك عيني يا ${p2} -` : `انتظر ${p1}`;
         }
 
-        function addScore(pNum) { winScores[pNum]++; document.getElementById(`score-${pNum}`).innerText = `الفوز: ${winScores[pNum]}`; saveAndSync(); }
+        function addScore(pNum) { winScores[pNum]++; saveAndSync(); }
         function toggleFullscreen() { if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(err => {}); } else { document.exitFullscreen(); } }
 
         function determineStarter() {
             if (isRolling) return; isRolling = true;
-            const cubes = [document.getElementById('p1-d1'), document.getElementById('p2-d1')];
+            const cubes = [
+                document.getElementById('p1-d1'), document.getElementById('p1-d2'),
+                document.getElementById('p2-d1'), document.getElementById('p2-d2')
+            ];
             cubes.forEach(c => c.classList.add('rolling'));
             let ticks = 0;
+            const p1 = document.getElementById('name-p1').value; const p2 = document.getElementById('name-p2').value;
+
             const interval = setInterval(() => {
-                cubes[0].innerText = Math.floor(Math.random() * 6) + 1; cubes[1].innerText = Math.floor(Math.random() * 6) + 1;
+                let f1 = Math.floor(Math.random() * 6) + 1; let f2 = Math.floor(Math.random() * 6) + 1;
+                cubes[0].innerText = f1; cubes[1].innerText = f2;
+                cubes[2].innerText = f1; cubes[3].innerText = f2;
                 playAudioProfile(false); ticks++;
+                
                 if (ticks > 14) {
                     clearInterval(interval); cubes.forEach(c => c.classList.remove('rolling')); playAudioProfile(true);
-                    let f1 = Math.floor(Math.random() * 6) + 1; let f2 = Math.floor(Math.random() * 6) + 1;
-                    if (f1 === f2) { f1 = f1 === 6 ? 5 : f1 + 1; } cubes[0].innerText = f1; cubes[1].innerText = f2;
-                    activePlayer = f1 > f2 ? 1 : 2;
+                    let finalF1 = Math.floor(Math.random() * 6) + 1; let finalF2 = Math.floor(Math.random() * 6) + 1;
+                    if (finalF1 === finalF2) { finalF1 = finalF1 === 6 ? 5 : finalF1 + 1; }
+                    
+                    cubes[0].innerText = finalF1; cubes[1].innerText = finalF2;
+                    cubes[2].innerText = finalF1; cubes[3].innerText = finalF2;
+                    
+                    activePlayer = finalF1 > finalF2 ? 1 : 2;
+                    let name = finalF1 > finalF2 ? `البداية لـ ${p1}` : `البداية لـ ${p2}`;
+                    document.getElementById('combo-1').innerText = name; document.getElementById('combo-2').innerText = name;
+                    
                     setTimeout(() => { saveAndSync(); isRolling = false; startTimer(); }, 2000);
                 }
             }, 60);
@@ -481,20 +532,35 @@
         function roll(playerNum) {
             if (isRolling || activePlayer !== playerNum) return;
             isRolling = true; clearInterval(turnTimer);
-            const cubes = [document.getElementById(`p${playerNum}-d1`), document.getElementById(`p${playerNum}-d2`)];
-            const currentZone = document.getElementById(`zone-${playerNum}`);
-            currentZone.classList.remove('flash-shadhar-active', 'flash-kahraman-active');
+            
+            // مسك كل مكعبات الزار بالجهتين لمزامنتها سوياً
+            const cubes = [
+                document.getElementById('p1-d1'), document.getElementById('p1-d2'),
+                document.getElementById('p2-d1'), document.getElementById('p2-d2')
+            ];
+            
+            document.getElementById('zone-1').classList.remove('flash-shadhar-active', 'flash-kahraman-active');
+            document.getElementById('zone-2').classList.remove('flash-shadhar-active', 'flash-kahraman-active');
+            
             if (navigator.vibrate) navigator.vibrate(35);
             cubes.forEach(c => c.classList.add('rolling'));
 
             let ticks = 0;
             const run = setInterval(() => {
-                cubes[0].innerText = Math.floor(Math.random() * 6) + 1; cubes[1].innerText = Math.floor(Math.random() * 6) + 1;
+                let r1 = Math.floor(Math.random() * 6) + 1; let r2 = Math.floor(Math.random() * 6) + 1;
+                cubes[0].innerText = r1; cubes[1].innerText = r2;
+                cubes[2].innerText = r1; cubes[3].innerText = r2;
+                
                 playAudioProfile(false); if (navigator.vibrate && ticks % 3 === 0) navigator.vibrate(10); ticks++;
+                
                 if (ticks > 12) {
                     clearInterval(run); cubes.forEach(c => c.classList.remove('rolling'));
                     const finalR1 = Math.floor(Math.random() * 6) + 1; const finalR2 = Math.floor(Math.random() * 6) + 1;
-                    cubes[0].innerText = finalR1; cubes[1].innerText = finalR2; playAudioProfile(true);
+                    
+                    cubes[0].innerText = finalR1; cubes[1].innerText = finalR2;
+                    cubes[2].innerText = finalR1; cubes[3].innerText = finalR2;
+                    
+                    playAudioProfile(true);
                     const name = getComboName(finalR1, finalR2);
                     document.getElementById('combo-1').innerText = name; document.getElementById('combo-2').innerText = name;
 
@@ -504,8 +570,10 @@
                     if((finalR1 === 6 && finalR2 === 5) || (finalR1 === 5 && finalR2 === 6)) playerStats[playerNum].sheesh++;
                     if(finalR1 === 1 && finalR2 === 1) playerStats[playerNum].habYek++;
 
+                    // وميض متزامن ومزدوج في حال الخوابير والمثاني
                     if (finalR1 === finalR2) {
-                        currentZone.classList.add(playerNum === 1 ? 'flash-shadhar-active' : 'flash-kahraman-active');
+                        document.getElementById('zone-1').classList.add('flash-shadhar-active');
+                        document.getElementById('zone-2').classList.add('flash-kahraman-active');
                         if (navigator.vibrate) navigator.vibrate([80, 40, 80, 40, 150]);
                     } else { if (navigator.vibrate) navigator.vibrate(70); }
 
@@ -526,7 +594,7 @@
         }
 
         function switchTurn() {
-            document.getElementById(`zone-${activePlayer}`).classList.remove('active-turn', 'flash-shadhar-active', 'flash-kahraman-active');
+            document.getElementById(`zone-${activePlayer}`).classList.remove('active-turn');
             activePlayer = activePlayer === 1 ? 2 : 1; document.getElementById(`zone-${activePlayer}`).classList.add('active-turn');
             saveAndSync(); startTimer();
         }
@@ -590,7 +658,6 @@
             } catch(e) {}
         }
 
-        // دالة تحديد المسميات التراثية الشرقية للزار (الخوابير والمثاني)
         function getComboName(r1, r2) {
             const max = Math.max(r1, r2);
             const min = Math.min(r1, r2);
