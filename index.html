@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ديوان الطاولي الفلوجي - النسخة الملكية</title>
+    
+    <!-- سطور الأرشفة والكلمات المفتاحية المخصصة لمحرك بحث غوغل -->
     <meta name="keywords" content="ديوان الطاولي الفلوجي, طاولي الفلوجة, لعبة زار, عبدالرحمن العيساوي, طاولي عراقي">
     <meta name="description" content="لعبة زار تفاعلية بأجواء ديوان الفلوجة العريق والتراث العراقي الأصيل">
-
+    
     <meta property="og:title" content="ديوان الطاولي الفلوجي - نسخة المقهى">
     <meta property="og:description" content="لعبة زار تفاعلية بأجواء ديوان الفلوجة العريق والتراث العراقي الأصيل">
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/casino-dice.png">
@@ -165,7 +167,7 @@
 
         .svg-icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; transition: all 0.3s ease; }
 
-        /* --- أنيميشن الحركات المستمرة والملونة للايقونات الوسطية --- */
+        /* --- أنيميشن الأيقونات --- */
         @keyframes spinDice {
             0% { transform: rotate(0deg); }
             50% { transform: rotate(15deg); scale: 1.05; }
@@ -329,9 +331,8 @@
     <!-- شريط المؤقت البصري التنافسي -->
     <div class="timer-track"><div class="timer-bar" id="activeTimerBar"></div></div>
 
-    <!-- الحزام المركزي المعدل بأيقونات ملونة ومتحركة بالكامل -->
+    <!-- الحزام المركزي -->
     <div class="center-bar">
-        <!-- زر القرعة -->
         <button class="center-btn" onclick="determineStarter();" title="منو يبدي؟">
             <svg class="svg-icon ani-dice" viewBox="0 0 24 24">
                 <rect x="3" y="3" width="18" height="18" rx="4" />
@@ -339,7 +340,6 @@
             </svg>
         </button>
         
-        <!-- زر تشغيل النغم -->
         <button class="tarab-btn" id="tarabRadioBtn" onclick="toggleLocalTarab();" title="شغل النغم">
             <div class="audio-visualizer" id="audioVis"><span></span><span></span><span></span></div>
             <svg class="svg-icon ani-radio" viewBox="0 0 24 24" style="margin-bottom: 4px;">
@@ -348,12 +348,10 @@
         </button>
 
         <div style="display: flex; gap: 6px; align-items: center;">
-            <!-- زر الأجواء والثيم المطور الدائري المتعدد -->
             <button class="center-btn" onclick="toggleTheme()" title="تغيير الأجواء">
                 <svg class="svg-icon ani-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42m12.72-12.72l1.42-1.42"/></svg>
             </button>
 
-            <!-- زر ملء الشاشة -->
             <button class="center-btn" onclick="toggleFullscreen()" title="ملء الشاشة">
                 <svg class="svg-icon ani-screen" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
             </button>
@@ -394,7 +392,6 @@
         let timeLeft = 150; 
         let activeModalPlayer = null; 
 
-        // قائمة الثيمات الخمسة الرائعة والجميلة
         const themes = ['cyber', 'wood', 'royal', 'sunset', 'emerald'];
         let currentThemeIndex = 0;
 
@@ -473,7 +470,6 @@
             }
         }
 
-        // دالة التغيير الدائري المتعدد للثيمات والألوان
         function toggleTheme() {
             document.body.classList.remove(`theme-${themes[currentThemeIndex]}`);
             currentThemeIndex = (currentThemeIndex + 1) % themes.length;
@@ -517,7 +513,6 @@
             if(localStorage.getItem("p1_score")) winScores[1] = parseInt(localStorage.getItem("p1_score"));
             if(localStorage.getItem("p2_score")) winScores[2] = parseInt(localStorage.getItem("p2_score"));
             
-            // استرجاع الثيم المخزن وتطبيقه
             const savedTheme = localStorage.getItem("tawla_theme");
             if(savedTheme && themes.includes(savedTheme)) {
                 document.body.classList.remove('theme-cyber');
